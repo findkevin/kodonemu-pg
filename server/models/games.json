@@ -1,0 +1,164 @@
+[
+  {
+    "cards": [
+      {
+        "value": "MODEL",
+        "team": "Blue",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "PHOENIX",
+        "team": "Neutral",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "IRON",
+        "team": "Neutral",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "DANCE",
+        "team": "Red",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "SCUBA DIVER",
+        "team": "Red",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "SHOP",
+        "team": "Neutral",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "CAST",
+        "team": "Red",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "HAWK",
+        "team": "Neutral",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "BED",
+        "team": "Red",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "TAIL",
+        "team": "Red",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "MOON",
+        "team": "Neutral",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "AGENT",
+        "team": "Red",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "GROUND",
+        "team": "Blue",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "PIT",
+        "team": "Red",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "BATTERY",
+        "team": "Blue",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "PARACHUTE",
+        "team": "Assassin",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "NUT",
+        "team": "Blue",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "SWING",
+        "team": "Neutral",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "GREEN",
+        "team": "Red",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "CASINO",
+        "team": "Red",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "FIGURE",
+        "team": "Neutral",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "BEAR",
+        "team": "Blue",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "GENIUS",
+        "team": "Blue",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "MINE",
+        "team": "Blue",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "FORCE",
+        "team": "Blue",
+        "clicked": false,
+        "teamClicked": null
+      }
+    ],
+    "gameName": "hello",
+    "blueTurn": false,
+    "redCards": 9,
+    "blueCards": 8,
+    "winner": null,
+    "blueTeamFirst": false,
+    "gameStartTime": "2020-04-28T19:30:36.790Z",
+    "lastUpdated": "2020-04-28T19:30:36.790Z"
+  }
+]

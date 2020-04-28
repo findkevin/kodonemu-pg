@@ -1,0 +1,93 @@
+/* Start App.css file for HomePage styling*/
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-family: "Courier New", monospace;
+}
+
+.App-header {
+  background-color: #ffffff;
+  width: 80%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #282c34;
+}
+
+.App-logo {
+  width: 80%;
+}
+
+#input-field {
+  width: 50%
+}
+
+#game-name {
+  width: 50%;
+}
+
+.App-link {
+  color: #4183cc;
+}
+
+.GitHub-logo {
+  height: 11px;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .GitHub-logo {
+    animation: GitHub-logo-spin infinite 5s linear;
+  }
+}
+
+@keyframes GitHub-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+p {
+  font-size: 14px;
+}
+
+hr {
+  width: 75%;
+}
+
+footer {
+  width: 80%;
+  font-size: small;
+}
+
+/* End App.css file */
+
+/* -------------------------------------------------------------------------- */
+
+/* Begin index.css file*/
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+/* End index.css file */
+
+/* -------------------------------------------------------------------------- */
