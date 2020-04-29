@@ -78,7 +78,7 @@ const wordList = require("../models/cards");
 function newGame(gameName, cardSets = ["VANILLA"]) {
   cardSets = Array.from(new Set(cardSets));
 
-  // // Find out which sets are to be used (cardSets)
+  // Find out which sets are to be used (cardSets)
   let words = [];
 
   for (let i = 0; i < cardSets.length; i++) {
@@ -103,7 +103,9 @@ function newGame(gameName, cardSets = ["VANILLA"]) {
   let blueCards = 8;
   let redCards = 8;
 
-  const blueGoesFirst = Math.floor(Math.random() * 2); // Binary RNG
+  //Determine which team goes first.
+  //Starting team will have one extra card as per game rules.
+  const blueGoesFirst = Math.floor(Math.random() * 2);
   if (blueGoesFirst) {
     blueCards++;
   } else {
@@ -111,7 +113,7 @@ function newGame(gameName, cardSets = ["VANILLA"]) {
   }
 
   let cards = [];
-  // Fill with the first 25 cards
+  // Fill the array with the first 25 cards
   for (let i = 0; i < 25; i++) {
     cards.push({
       value: words[i],
@@ -121,11 +123,10 @@ function newGame(gameName, cardSets = ["VANILLA"]) {
     });
   }
 
+  // Assign the cards to the Spymaster grid view.
   cards = assignTeamsToCards(cards, blueCards, redCards);
 
   const blueTurn = blueCards > redCards;
-
-  console.log("--------------------------------inside new game function");
 
   return Object.assign({}, defaultGameState, {
     gameName,
@@ -145,10 +146,8 @@ function shuffle(array) {
     array[i] = array[j];
     array[j] = temp;
   }
-
   return array;
 }
-
 
 // Set cards to be red/blue/assassin
 function assignTeamsToCards(cards, blueCards, redCards) {

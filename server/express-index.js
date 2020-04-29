@@ -58,8 +58,8 @@ io.on("connection", (socket) => {
 });
 
 // Route to /api using Express Router to make sure we are getting our words from the wordList.
-const apiRoutes = express.Router();
-app.use("/api", apiRoutes);
+// const apiRoutes = express.Router();
+// app.use("/api", apiRoutes);
 
 // apiRoutes.get('/', (req, res) => {
 //   const games = readGamesFromFile();
