@@ -233,72 +233,72 @@ function determineWinner(cards) {
 }
 
 // Creates a new game
-function newGame(cardSets = ["VANILLA"]) {
-  // cardSets = Array.from(new Set(cardSets));
-  cardSets = Array.from(new Set(cardSets));
+// function newGame(cardSets = ["VANILLA"]) {
+//   // cardSets = Array.from(new Set(cardSets));
+//   cardSets = Array.from(new Set(cardSets));
 
-  // Find out which sets are to be used (cardSets)
-  // Get all the cards and randomize the order
-  let words = [];
+//   // Find out which sets are to be used (cardSets)
+//   // Get all the cards and randomize the order
+//   let words = [];
 
-  for (let i = 0; i < cardSets.length; i++) {
-    switch (cardSets[i]) {
-      case "VANILLA": {
-        words.push(...wordList.vanilla);
-        break;
-      }
-      //Testing custom wordlist
-      // case 'PLUS_OFFSET':
-      // {
-      //   words.push(...wordList.plus_offset);
-      //   break;
-      // }
-      default: {
-        break;
-      }
-    }
-  }
+//   for (let i = 0; i < cardSets.length; i++) {
+//     switch (cardSets[i]) {
+//       case "VANILLA": {
+//         words.push(...wordList.vanilla);
+//         break;
+//       }
+//       //Testing custom wordlist
+//       // case 'PLUS_OFFSET':
+//       // {
+//       //   words.push(...wordList.plus_offset);
+//       //   break;
+//       // }
+//       default: {
+//         break;
+//       }
+//     }
+//   }
 
-  // If word list is empty, default to vanilla set
-  if (!words.length) {
-    words.push(...wordList.vanilla);
-  }
+//   // If word list is empty, default to vanilla set
+//   if (!words.length) {
+//     words.push(...wordList.vanilla);
+//   }
 
-  words = shuffle(words);
+//   words = shuffle(words);
 
-  let blueCards = 8;
-  let redCards = 8;
+//   let blueCards = 8;
+//   let redCards = 8;
 
-  const blueGoesFirst = Math.floor(Math.random() * 2); // Binary RNG
-  if (blueGoesFirst) {
-    blueCards++;
-  } else {
-    redCards++;
-  }
+//   const blueGoesFirst = Math.floor(Math.random() * 2); // Binary RNG
+//   if (blueGoesFirst) {
+//     blueCards++;
+//   } else {
+//     redCards++;
+//   }
 
-  let cards = [];
-  // Fill with the first 25 cards
-  for (let i = 0; i < 25; i++) {
-    cards.push({
-      value: words[i],
-      team: "Neutral",
-      clicked: false,
-      teamClicked: null,
-    });
-  }
+//   let cards = [];
+//   // Fill with the first 25 cards
+//   for (let i = 0; i < 25; i++) {
+//     cards.push({
+//       value: words[i],
+//       team: "Neutral",
+//       clicked: false,
+//       teamClicked: null,
+//     });
+//   }
 
-  cards = assignTeamsToCards(cards, blueCards, redCards);
+//   cards = assignTeamsToCards(cards, blueCards, redCards);
 
-  const blueTurn = blueCards > redCards;
+//   const blueTurn = blueCards > redCards;
 
-  return Object.assign({}, defaultGameState, {
-    cards,
-    blueCards,
-    redCards,
-    blueTurn,
-    blueTeamFirst: blueCards > redCards,
-  });
-}
+//   return Object.assign({}, defaultGameState, {
+//     cards,
+//     blueCards,
+//     redCards,
+//     blueTurn,
+//     blueTeamFirst: blueCards > redCards,
+//   });
+// }
 
 // // Set cards to be red/blue/assassin
 // function assignTeamsToCards(cards, blueCards, redCards) {

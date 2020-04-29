@@ -55,8 +55,29 @@ router.put("/:gameName/newGame", async (req, res, next) => {
   }
 })
 
+//find the existing game, check card value if it has been clicked.
+//dont click the card if already clicked or game is over
+//end turn if its not the teams card.
+router.put('/:gameName/cardClicked', async (req, res, next) => {
+  try {
+    const gameName = req.params.gameName
+    const cardIndex =  0 //req.body.cardIndex
+    const currentGame = await Games.findOne({
+      where: {
+        gameName: gameName,
+      }
+    })
+    // const selectedCard = await currentGame.cards[cardIndex]
+    // const updateCard = await selectedCard.update({
+    //   clicked: true,
+    // })
+    res.status(200).json(currentGame.cards[cardIndex].clicked)
+  } catch (error) {
+    next(error)
+  }
+})
 
-
+//^^Able to grab single card from game. Still have to implement update.
 
 
 
