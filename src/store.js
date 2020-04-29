@@ -5,6 +5,6 @@ import logger from 'redux-logger'; // https://github.com/evgenyrodionov/redux-lo
 import thunk from 'redux-thunk'; // https://github.com/gaearon/redux-thunk
 import promise from 'redux-promise-middleware';
 
-// const middleware = applyMiddleware(promise(), thunk, logger);
+const middleware = applyMiddleware(promise, thunk, logger);
 
-export default createStore(reducer, applyMiddleware(promise, thunk, logger));
+export default createStore(reducer, middleware);
