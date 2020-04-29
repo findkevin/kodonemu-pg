@@ -86,36 +86,36 @@ io.on("connection", (socket) => {
 //   res.json(game); // Shouldn't emit game state every time someone loads
 // });
 
-apiRoutes.post("/:gameName/newGame", (req, res) => {
-  res.sendStatus(200);
+// apiRoutes.post("/:gameName/newGame", (req, res) => {
+//   res.sendStatus(200);
 
-  const gameName = req.params.gameName;
-  const cardSets = req.body.expansions;
+//   const gameName = req.params.gameName;
+//   const cardSets = req.body.expansions;
 
-  const games = readGamesFromFile();
+//   const games = readGamesFromFile();
 
-  let game = Object.assign({}, newGame(cardSets), { gameName });
+//   let game = Object.assign({}, newGame(cardSets), { gameName });
 
-  const gameFromStorage = games.find(
-    (existingGame) => existingGame.gameName === game.gameName
-  );
+//   const gameFromStorage = games.find(
+//     (existingGame) => existingGame.gameName === game.gameName
+//   );
 
-  if (gameFromStorage) {
-    if (!requestIsNew(gameFromStorage.lastUpdated, req.timestamp)) return;
+//   if (gameFromStorage) {
+//     if (!requestIsNew(gameFromStorage.lastUpdated, req.timestamp)) return;
 
-    // Timestamp the game
-    game.gameStartTime = req.timestamp;
-    game.lastUpdated = req.timestamp;
+//     // Timestamp the game
+//     game.gameStartTime = req.timestamp;
+//     game.lastUpdated = req.timestamp;
 
-    // Update existing game
-    game = Object.assign(gameFromStorage, game);
-  } else {
-    games.push(game);
-  }
+//     // Update existing game
+//     game = Object.assign(gameFromStorage, game);
+//   } else {
+//     games.push(game);
+//   }
 
-  io.to(gameName).emit("updateGame", game);
-  writeGamesToFile(games);
-});
+//   io.to(gameName).emit("updateGame", game);
+//   writeGamesToFile(games);
+// });
 
 apiRoutes.post("/:gameName/cardClicked", (req, res) => {
   res.sendStatus(200);

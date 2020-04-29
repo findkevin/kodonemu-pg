@@ -5,18 +5,18 @@ const models = require("../models");
 // const wordList = require("../models/cards");
 const Games = models.Games;
 
-//Get all games
+//Get all games in the database
 router.get("/", async (req, res, next) => {
   try {
     let allGames = await Games.findAll();
     res.json(allGames);
-    console.log("Get all games route");
+    console.log("Get all existing games!");
   } catch (error) {
-    res.status(500).send(error);
+    next(error);
   }
 });
 
-//find a single game, if it doesnt exist... create a new one
+//Find a single game, if it doesnt exist... create a new one
 router.post("/:gameName", async (req, res, next) => {
   try {
     const gameName = req.params.gameName
@@ -29,10 +29,31 @@ router.post("/:gameName", async (req, res, next) => {
     created ? console.log('Created new game!') : console.log('Found existing game!')
     res.json(game)
   } catch (error) {
-    res.status(500).send(error);
+    next(error);
   }
 });
 
+
+//update an existing game with new game state.
+//search db, find game by name, give game new state, keep the game name.
+router.put("/:gameName/newGame", async (req, res, next) => {
+  try {
+    const gameName = req.params.gameName
+    const [numAffectedRows, [updatedGame]] = await Games.update(
+      newGame(gameName),
+      {
+        where: {
+          gameName: gameName,
+        },
+        returning: true
+      }
+    )
+    console.log('Game has been updated!')
+    res.status(200).json(updatedGame)
+  } catch (error) {
+    next(error)
+  }
+})
 
 
 
@@ -127,6 +148,8 @@ function newGame(gameName, cardSets = ["VANILLA"]) {
   cards = assignTeamsToCards(cards, blueCards, redCards);
 
   const blueTurn = blueCards > redCards;
+
+  console.log('---------------------------------Inside new game function')
 
   return Object.assign({}, defaultGameState, {
     gameName,
