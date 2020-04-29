@@ -26,13 +26,7 @@ router.post("/:gameName", async (req, res, next) => {
       },
       defaults: newGame(gameName)
     })
-    // if(created) {
-    //   //create a new game and return it as response.
-    //   res.json(newGame(gameName))
-    // } else {
-    //   //return the game that is found.
-    //   res.json(game)
-    // }
+    created ? console.log('Created new game!') : console.log('Found existing game!')
     res.json(game)
   } catch (error) {
     res.status(500).send(error);
@@ -82,11 +76,9 @@ const defaultGameState = {
 const wordList = require("../models/cards");
 
 function newGame(gameName, cardSets = ["VANILLA"]) {
-  // cardSets = Array.from(new Set(cardSets));
   cardSets = Array.from(new Set(cardSets));
 
   // // Find out which sets are to be used (cardSets)
-  // // Get all the cards and randomize the order
   let words = [];
 
   for (let i = 0; i < cardSets.length; i++) {
@@ -106,7 +98,7 @@ function newGame(gameName, cardSets = ["VANILLA"]) {
     words.push(...wordList.vanilla);
   }
 
-  // words = shuffle(words);
+  words = shuffle(words);
 
   let blueCards = 8;
   let redCards = 8;
@@ -129,7 +121,7 @@ function newGame(gameName, cardSets = ["VANILLA"]) {
     });
   }
 
-  // cards = assignTeamsToCards(cards, blueCards, redCards);
+  cards = assignTeamsToCards(cards, blueCards, redCards);
 
   const blueTurn = blueCards > redCards;
 
@@ -145,8 +137,36 @@ function newGame(gameName, cardSets = ["VANILLA"]) {
   });
 }
 
+// Randomly shuffles an array
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+
+  return array;
+}
 
 
+// Set cards to be red/blue/assassin
+function assignTeamsToCards(cards, blueCards, redCards) {
+  // Blue cards at start of deck
+  for (let i = 0; i < blueCards; i++) {
+    cards[i].team = "Blue";
+  }
+
+  // Red cards after blue cards
+  for (let i = blueCards; i < blueCards + redCards; i++) {
+    cards[i].team = "Red";
+  }
+
+  // Assassin after the other cards
+  cards[17].team = "Assassin";
+
+  return shuffle(cards);
+}
 
 
 

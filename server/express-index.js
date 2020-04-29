@@ -61,30 +61,30 @@ io.on("connection", (socket) => {
 const apiRoutes = express.Router();
 app.use("/api", apiRoutes);
 
-apiRoutes.get('/', (req, res) => {
-  const games = readGamesFromFile();
-  res.json(games);
-})
+// apiRoutes.get('/', (req, res) => {
+//   const games = readGamesFromFile();
+//   res.json(games);
+// })
 
-apiRoutes.get("/:gameName", (req, res) => {
-  const gameName = req.params.gameName;
+// apiRoutes.get("/:gameName", (req, res) => {
+//   const gameName = req.params.gameName;
 
-  let games = readGamesFromFile();
+//   let games = readGamesFromFile();
 
-  let game = games.find((game) => game.gameName === gameName);
+//   let game = games.find((game) => game.gameName === gameName);
 
-  if (!game) {
-    game = newGame();
-    game.gameName = gameName;
-    game.gameStartTime = req.timestamp;
-    game.lastUpdated = req.timestamp;
+//   if (!game) {
+//     game = newGame();
+//     game.gameName = gameName;
+//     game.gameStartTime = req.timestamp;
+//     game.lastUpdated = req.timestamp;
 
-    games.push(game);
-    writeGamesToFile(games);
-  }
+//     games.push(game);
+//     writeGamesToFile(games);
+//   }
 
-  res.json(game); // Shouldn't emit game state every time someone loads
-});
+//   res.json(game); // Shouldn't emit game state every time someone loads
+// });
 
 apiRoutes.post("/:gameName/newGame", (req, res) => {
   res.sendStatus(200);
@@ -300,35 +300,35 @@ function newGame(cardSets = ["VANILLA"]) {
   });
 }
 
-// Set cards to be red/blue/assassin
-function assignTeamsToCards(cards, blueCards, redCards) {
-  // Blue cards at start of deck
-  for (let i = 0; i < blueCards; i++) {
-    cards[i].team = "Blue";
-  }
+// // Set cards to be red/blue/assassin
+// function assignTeamsToCards(cards, blueCards, redCards) {
+//   // Blue cards at start of deck
+//   for (let i = 0; i < blueCards; i++) {
+//     cards[i].team = "Blue";
+//   }
 
-  // Red cards after blue cards
-  for (let i = blueCards; i < blueCards + redCards; i++) {
-    cards[i].team = "Red";
-  }
+//   // Red cards after blue cards
+//   for (let i = blueCards; i < blueCards + redCards; i++) {
+//     cards[i].team = "Red";
+//   }
 
-  // Assassin after the other cards
-  cards[17].team = "Assassin";
+//   // Assassin after the other cards
+//   cards[17].team = "Assassin";
 
-  return shuffle(cards);
-}
+//   return shuffle(cards);
+// }
 
-// Randomly shuffles an array
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
-  }
+// // Randomly shuffles an array
+// function shuffle(array) {
+//   for (let i = array.length - 1; i > 0; i -= 1) {
+//     const j = Math.floor(Math.random() * (i + 1));
+//     const temp = array[i];
+//     array[i] = array[j];
+//     array[j] = temp;
+//   }
 
-  return array;
-}
+//   return array;
+// }
 
 // Tests to see if the request time is newer than the game's lastUpdated time
 function requestIsNew(gameTime, requestTime) {

@@ -16,8 +16,8 @@
       {
         "value": "IRON",
         "team": "Neutral",
-        "clicked": false,
-        "teamClicked": null
+        "clicked": true,
+        "teamClicked": "Red"
       },
       {
         "value": "DANCE",
@@ -40,8 +40,8 @@
       {
         "value": "CAST",
         "team": "Red",
-        "clicked": false,
-        "teamClicked": null
+        "clicked": true,
+        "teamClicked": "Blue"
       },
       {
         "value": "HAWK",
@@ -52,8 +52,8 @@
       {
         "value": "BED",
         "team": "Red",
-        "clicked": false,
-        "teamClicked": null
+        "clicked": true,
+        "teamClicked": "Red"
       },
       {
         "value": "TAIL",
@@ -154,11 +154,173 @@
     ],
     "gameName": "hello",
     "blueTurn": false,
-    "redCards": 9,
+    "redCards": 7,
     "blueCards": 8,
     "winner": null,
     "blueTeamFirst": false,
     "gameStartTime": "2020-04-28T19:30:36.790Z",
     "lastUpdated": "2020-04-28T19:30:36.790Z"
+  },
+  {
+    "cards": [
+      {
+        "value": "BOND",
+        "team": "Blue",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "PYRAMID",
+        "team": "Blue",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "NINJA",
+        "team": "Neutral",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "CROWN",
+        "team": "Neutral",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "PIE",
+        "team": "Blue",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "FLY",
+        "team": "Blue",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "LINK",
+        "team": "Red",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "MARCH",
+        "team": "Blue",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "JAM",
+        "team": "Blue",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "NOVEL",
+        "team": "Red",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "BAR",
+        "team": "Blue",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "MINE",
+        "team": "Red",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "CHANGE",
+        "team": "Neutral",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "IRON",
+        "team": "Red",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "DECK",
+        "team": "Blue",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "COTTON",
+        "team": "Red",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "QUEEN",
+        "team": "Red",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "COMPOUND",
+        "team": "Assassin",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "YARD",
+        "team": "Neutral",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "LUCK",
+        "team": "Red",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "AIR",
+        "team": "Neutral",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "TIME",
+        "team": "Neutral",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "STREAM",
+        "team": "Neutral",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "ROSE",
+        "team": "Red",
+        "clicked": false,
+        "teamClicked": null
+      },
+      {
+        "value": "AMBULANCE",
+        "team": "Red",
+        "clicked": false,
+        "teamClicked": null
+      }
+    ],
+    "gameName": "bye",
+    "blueTurn": false,
+    "redCards": 9,
+    "blueCards": 8,
+    "winner": null,
+    "blueTeamFirst": false,
+    "gameStartTime": "2020-04-29T13:14:02.639Z",
+    "lastUpdated": "2020-04-29T13:14:02.639Z"
   }
 ]
