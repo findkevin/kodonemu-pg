@@ -6,14 +6,14 @@ import Board from "./Board";
 import CodeNames from '../images/CodeNames.png'
 import { connect } from "react-redux";
 
-import { changeRole } from "../actions/userOptionsActions";
+import { changeRole } from "../store/actions/userOptionsActions";
 import {
   updateGame,
   loadGame,
   startNewGame,
   endTurn,
   cardClick,
-} from "../actions/gameActions";
+} from "../store/actions/gameActions";
 import { socketUrl } from "../config/serverUrl";
 
 const stateMap = (store) => {
