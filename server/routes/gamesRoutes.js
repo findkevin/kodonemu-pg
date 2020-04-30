@@ -60,22 +60,31 @@ router.put("/:gameName/newGame", async (req, res, next) => {
 //end turn if its not the teams card.
 router.put('/:gameName/cardClicked', async (req, res, next) => {
   try {
-    const gameName = req.params.gameName
-    const cardIndex =  0 //req.body.cardIndex
+    const gameName = req.params.gameName;
+    const cardIndex = 2 //req.body.cardIndex;
+    const teamClicked = 'Black' //req.body.teamClicked;
     const currentGame = await Games.findOne({
       where: {
         gameName: gameName,
       }
     })
-    // const selectedCard = await currentGame.cards[cardIndex]
-    // const updateCard = await selectedCard.update({
-    //   clicked: true,
-    // })
-    res.status(200).json(currentGame.cards[cardIndex].clicked)
+
+    let cardsArray = [...currentGame.cards] //copy all cards from game.
+    let selectedCard = {...cardsArray[cardIndex], clicked: true, teamClicked} //get the card from our copy, change its values
+    cardsArray[cardIndex] = selectedCard //return the array with new card values.
+
+    res.status(200).json(cardsArray)
   } catch (error) {
     next(error)
   }
 })
+
+//The array is saved inside a cell and cannot access individual card object values.
+//Try to spread the array into an object,
+//change the desired card value.
+//Then spread the object inside a new array
+//and send it back to the database as an array.
+// const cardData = {...[cards]} '=> MODIFY DATA =>' [...{newCards}]
 
 //^^Able to grab single card from game. Still have to implement update.
 

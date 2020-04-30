@@ -14,7 +14,7 @@ const db = new Sequelize("postgres://localhost:5432/kodonemu", {
 
 const Games = db.define("games", {
   cards: {
-    type: Sequelize.ARRAY(Sequelize.JSON),
+    type: Sequelize.ARRAY(Sequelize.JSONB),
   },
   gameName: {
     type: Sequelize.STRING,
