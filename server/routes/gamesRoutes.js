@@ -61,7 +61,7 @@ router.put("/:gameName/newGame", async (req, res, next) => {
 router.put('/:gameName/cardClicked', async (req, res, next) => {
   try {
     const gameName = req.params.gameName;
-    const cardIndex = 2 //req.body.cardIndex;
+    const cardIndex = 1 //req.body.cardIndex;
     const teamClicked = 'Black' //req.body.teamClicked;
     const currentGame = await Games.findOne({
       where: {
@@ -69,11 +69,24 @@ router.put('/:gameName/cardClicked', async (req, res, next) => {
       }
     })
 
-    let cardsArray = [...currentGame.cards] //copy all cards from game.
-    let selectedCard = {...cardsArray[cardIndex], clicked: true, teamClicked} //get the card from our copy, change its values
-    cardsArray[cardIndex] = selectedCard //return the array with new card values.
+    //Make a copy all cards from current game.
+    let cardsArray = [...currentGame.cards]
+    //Get the single card from our copy and change its values
+    let selectedCard = {...cardsArray[cardIndex], clicked: true, teamClicked}
+    //Return the array with new card values.
+    cardsArray[cardIndex] = selectedCard
 
-    res.status(200).json(cardsArray)
+    //Update the database with the new copy of the cards array.
+    const [numAffectedRows, [updatedGame]] = await Games.update(
+      {cards: cardsArray},
+      {
+        where: {
+          gameName: gameName,
+        },
+        returning: true
+      }
+    )
+    res.status(200).json(updatedGame);
   } catch (error) {
     next(error)
   }
