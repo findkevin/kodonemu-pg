@@ -117,50 +117,50 @@ io.on("connection", (socket) => {
 //   writeGamesToFile(games);
 // });
 
-apiRoutes.post("/:gameName/cardClicked", (req, res) => {
-  res.sendStatus(200);
+// apiRoutes.post("/:gameName/cardClicked", (req, res) => {
+//   res.sendStatus(200);
 
-  const gameName = req.params.gameName;
-  const cardIndex = req.body.cardIndex;
-  const teamClicked = req.body.teamClicked;
+//   const gameName = req.params.gameName;
+//   const cardIndex = req.body.cardIndex;
+//   const teamClicked = req.body.teamClicked;
 
-  const games = readGamesFromFile();
+//   const games = readGamesFromFile();
 
-  const game = games.find((existingGame) => existingGame.gameName === gameName);
+//   const game = games.find((existingGame) => existingGame.gameName === gameName);
 
-  if (game) {
-    if (!requestIsNew(game.lastUpdated, req.timestamp)) return;
+//   if (game) {
+//     if (!requestIsNew(game.lastUpdated, req.timestamp)) return;
 
-    let card = game.cards[cardIndex];
+//     let card = game.cards[cardIndex];
 
-    if (game) {
-      //Standard
-      // Click the card for the standard game mode
-      // Don't click the card if already clicked or game is over
-      if (!(game.winner || card.clicked)) {
-        card.clicked = true;
-        card.teamClicked = teamClicked;
+//     if (game) {
+//       //Standard
+//       // Click the card for the standard game mode
+//       // Don't click the card if already clicked or game is over
+//       if (!(game.winner || card.clicked)) {
+//         card.clicked = true;
+//         card.teamClicked = teamClicked;
 
-        const cardsRemaining = calculateCardsRemaining(game.cards);
+//         const cardsRemaining = calculateCardsRemaining(game.cards);
 
-        game.redCards = cardsRemaining.redTeam;
-        game.blueCards = cardsRemaining.blueTeam;
+//         game.redCards = cardsRemaining.redTeam;
+//         game.blueCards = cardsRemaining.blueTeam;
 
-        game.winner = determineWinner(game.cards);
+//         game.winner = determineWinner(game.cards);
 
-        // End turn if not the team's card
-        if (
-          (game.blueTurn && card.team !== "Blue") ||
-          (!game.blueTurn && card.team !== "Red")
-        ) {
-          game.blueTurn = !game.blueTurn;
-        }
-      }
-    }
-    io.to(gameName).emit("updateGame", game);
-    writeGamesToFile(games);
-  }
-});
+//         // End turn if not the team's card
+//         if (
+//           (game.blueTurn && card.team !== "Blue") ||
+//           (!game.blueTurn && card.team !== "Red")
+//         ) {
+//           game.blueTurn = !game.blueTurn;
+//         }
+//       }
+//     }
+//     io.to(gameName).emit("updateGame", game);
+//     writeGamesToFile(games);
+//   }
+// });
 
 apiRoutes.get("/:gameName/endTurn", (req, res) => {
   res.sendStatus(200);

@@ -4,6 +4,7 @@ const router = express.Router();
 const models = require("../models");
 // const wordList = require("../models/cards");
 const Games = models.Games;
+const Sequelize = require('sequelize')
 
 //Get all games in the database
 router.get("/", async (req, res, next) => {
@@ -102,6 +103,35 @@ router.put('/:gameName/cardClicked', async (req, res, next) => {
 //^^Able to grab single card from game. Still have to implement update.
 
 
+
+//End teams turn
+//find the game, flip team turn.
+//update game
+router.put("/:gameName/endTurn", async (req, res, next) => {
+  try {
+    const gameName = req.params.gameName
+    const currentGame = await Games.findOne({
+      where: {
+        gameName: gameName,
+      }
+    })
+
+    const blueTurn = currentGame.blueTurn;
+
+    const [numAffectedRows, [updatedGame]] = await Games.update(
+      {blueTurn: !blueTurn},
+      {
+        where: {
+          gameName: gameName,
+        },
+        returning: true
+      }
+      )
+    res.status(200).json(updatedGame)
+  } catch (error) {
+    next(error)
+  }
+})
 
 
 
