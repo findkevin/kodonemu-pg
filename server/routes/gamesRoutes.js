@@ -1,63 +1,7 @@
 const express = require("express");
-const app = express()
 const router = express.Router();
 const models = require("../models");
-// const wordList = require("../models/cards");
 const Games = models.Games;
-
-
-
-
-
-
-
-
-
-
-
-//SOCKETS----------------------------------------
-//   const PORT = 5000;
-
-//   //Initialize our server port to localhost:5000
-//   const server = app.listen(PORT, "localhost", () =>
-//   console.log(`Codenames server listening on port ${PORT}`)
-//   );
-
-
-// const socket = require("socket.io");
-
-// const io = socket(server);
-
-// io.on("connection", (socket) => {
-//   socket.on("joinRoom", (roomName) => {
-//     socket.join(roomName);
-//   });
-
-//   socket.on("disconnect", () => {});
-// });
-
-//SOCKETS----------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //Get all games in the database
 router.get("/", async (req, res, next) => {
@@ -69,6 +13,8 @@ router.get("/", async (req, res, next) => {
     next(error);
   }
 });
+
+//------------------------------------------------------------------------
 
 //Find a single game, if it doesnt exist... create a new one
 router.get("/:gameName", async (req, res, next) => {
@@ -88,6 +34,7 @@ router.get("/:gameName", async (req, res, next) => {
   }
 });
 
+//------------------------------------------------------------------------
 
 //update an existing game with new game state.
 //search db, find game by name, give game new state, keep the game name.
@@ -110,6 +57,8 @@ router.put("/:gameName/newGame", async (req, res, next) => {
     next(error)
   }
 })
+
+//------------------------------------------------------------------------
 
 //find the existing game, check card value if it has been clicked.
 //dont click the card if already clicked or game is over
@@ -156,9 +105,7 @@ router.put('/:gameName/cardClicked', async (req, res, next) => {
 //and send it back to the database as an array.
 // const cardData = {...[cards]} '=> MODIFY DATA =>' [...{newCards}]
 
-//^^Able to grab single card from game. Still have to implement update.
-
-
+//------------------------------------------------------------------------
 
 //End teams turn
 //find the game, flip team turn.
@@ -190,30 +137,7 @@ router.put("/:gameName/endTurn", async (req, res, next) => {
   }
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//hlper func
+//HELPER FUNCTIONS--------------------------------------------------------
 const defaultGameState = {
   cards: [],
   gameName: null,
@@ -225,6 +149,8 @@ const defaultGameState = {
 };
 
 const wordList = require("../models/cards");
+
+//------------------------------------------------------------------------
 
 function newGame(gameName, cardSets = ["VANILLA"]) {
   cardSets = Array.from(new Set(cardSets));
@@ -291,6 +217,8 @@ function newGame(gameName, cardSets = ["VANILLA"]) {
   });
 }
 
+//------------------------------------------------------------------------
+
 // Randomly shuffles an array
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i -= 1) {
@@ -304,6 +232,8 @@ function shuffle(array) {
 
   return array;
 }
+
+//------------------------------------------------------------------------
 
 // Set cards to be red/blue/assassin
 function assignTeamsToCards(cards, blueCards, redCards) {
@@ -325,37 +255,9 @@ function assignTeamsToCards(cards, blueCards, redCards) {
   return shuffle(cards);
 }
 
+//------------------------------------------------------------------------
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+module.exports = router;
 
 // //delete an existing game after createdAt time exceeds 24hrs.
 // router.delete("/:gameName", async (req, res, next) => {
@@ -371,4 +273,3 @@ function assignTeamsToCards(cards, blueCards, redCards) {
 //   }
 // });
 
-module.exports = router;
