@@ -6,6 +6,8 @@ const models = require("./models");
 const path = require("path");
 const apiRoutes = express.Router();
 const socket = require('socket.io')
+const request = require('request');
+
 
 
 
@@ -14,13 +16,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 //CORS ERROR FIX? https://medium.com/@dtkatz/3-ways-to-fix-the-cors-error-and-how-access-control-allow-origin-works-d97d55946d9
-app.use((req, res, next) => {
+app.use( (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   next();
 });
 
 app.use("/api", apiRoutes);
-// apiRoutes.use('/cards', require('./routes/cards'));
 apiRoutes.use('/games', require('./routes/gamesRoutes'));
 
  //-----------------------------------------------------------------------
@@ -52,8 +53,17 @@ io.on('connection', socket => {
 
 //------------------------------------------------------------------------
 
-app.get('/', function (req, res) {
+app.get('/', function (req, res, next) {
   res.redirect('/');
+  request(
+    { url: 'http://localhost:5000/'},
+    (error, response, body) => {
+      if(error || response.statusCode !== 200) {
+        return res.status(500).json({type: 'error', message: error.message})
+      }
+      res.json(JSON.parse(body));
+    }
+  )
 });
 
 app.use((req, res, next) => {
