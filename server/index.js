@@ -10,15 +10,25 @@ const request = require('request');
 
 
 
-
 app.use(express.static(path.join(__dirname, "./public"))); //serving up static files (e.g. css files)
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 //CORS ERROR FIX? https://medium.com/@dtkatz/3-ways-to-fix-the-cors-error-and-how-access-control-allow-origin-works-d97d55946d9
 app.use( (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
+  // res.header('Access-Control-Allow-Origin', "*");
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"
+  );
+  if ("OPTIONS" === req.method) {
+    res.send(200);
+  } else {
+    next();
+  }
 });
 
 app.use("/api", apiRoutes);
