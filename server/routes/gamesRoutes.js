@@ -1,9 +1,63 @@
 const express = require("express");
-// const app = express()
+const app = express()
 const router = express.Router();
 const models = require("../models");
 // const wordList = require("../models/cards");
 const Games = models.Games;
+
+
+
+
+
+
+
+
+
+
+
+//SOCKETS----------------------------------------
+//   const PORT = 5000;
+
+//   //Initialize our server port to localhost:5000
+//   const server = app.listen(PORT, "localhost", () =>
+//   console.log(`Codenames server listening on port ${PORT}`)
+//   );
+
+
+// const socket = require("socket.io");
+
+// const io = socket(server);
+
+// io.on("connection", (socket) => {
+//   socket.on("joinRoom", (roomName) => {
+//     socket.join(roomName);
+//   });
+
+//   socket.on("disconnect", () => {});
+// });
+
+//SOCKETS----------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //Get all games in the database
 router.get("/", async (req, res, next) => {
@@ -26,7 +80,8 @@ router.get("/:gameName", async (req, res, next) => {
       },
       defaults: newGame(gameName)
     })
-    created ? console.log('Created new game!') : console.log('Found existing game!')
+    created ? console.log('Created new game because we could not find an existing game.') : console.log('Found existing game!')
+    // io.to(gameName).emit("getGame", game)
     res.json(game)
   } catch (error) {
     next(error);
@@ -49,6 +104,7 @@ router.put("/:gameName/newGame", async (req, res, next) => {
       }
     )
     console.log('Game has been updated!')
+      // io.to(gameName).emit("updatedGame", updatedGame);
     res.status(200).json(updatedGame)
   } catch (error) {
     next(error)
@@ -86,6 +142,7 @@ router.put('/:gameName/cardClicked', async (req, res, next) => {
         returning: true
       }
     )
+        // io.to(gameName).emit("updatedGame", updatedGame);
     res.status(200).json(updatedGame);
   } catch (error) {
     next(error)
@@ -126,6 +183,7 @@ router.put("/:gameName/endTurn", async (req, res, next) => {
         returning: true
       }
       )
+      // io.to(gameName).emit("updatedGame", updatedGame);
     res.status(200).json(updatedGame)
   } catch (error) {
     next(error)

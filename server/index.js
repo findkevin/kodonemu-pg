@@ -34,7 +34,7 @@ app.use((err, req, res, next) => {
   // res.status(500).render('this is our custom error message', {error: err})
 })
 
-module.exports = app;
+
 
 //Express Router--------------------------END-----------------------------
 
@@ -58,3 +58,6 @@ init();
 
 
 //^PostgreSQL Sequelize Postico Database^\\
+
+
+module.exports = app;

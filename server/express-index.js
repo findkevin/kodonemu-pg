@@ -8,36 +8,36 @@ const schedule = require("node-schedule");
 const path = require('path')
 const serveStatic = require('serve-static')
 
-const wordList = require("./models/cards");
+// const wordList = require("./models/cards");
 
 const app = express();
-app.use(serveStatic(path.join(__dirname, 'dist')))
+// app.use(serveStatic(path.join(__dirname, 'dist')))
 
 
-const defaultGameState = {
-  cards: [],
-  gameName: null,
-  blueTurn: false,
-  redCards: 0,
-  blueCards: 0,
-  winner: null,
-  blueTeamFirst: false,
-};
+// const defaultGameState = {
+//   cards: [],
+//   gameName: null,
+//   blueTurn: false,
+//   redCards: 0,
+//   blueCards: 0,
+//   winner: null,
+//   blueTeamFirst: false,
+// };
 
 // Body Parser allows reading of JSON from POST and/or URL parameters
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    next();
-  });
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//     );
+//     next();
+//   });
 
   // Use the express timestamp library https://www.npmjs.com/package/express-timestamp
-  app.use(time.init);
+  // app.use(time.init);
 
   const PORT = 5000;
 
@@ -162,24 +162,24 @@ io.on("connection", (socket) => {
 //   }
 // });
 
-apiRoutes.get("/:gameName/endTurn", (req, res) => {
-  res.sendStatus(200);
+// apiRoutes.get("/:gameName/endTurn", (req, res) => {
+//   res.sendStatus(200);
 
-  const gameName = req.params.gameName;
+//   const gameName = req.params.gameName;
 
-  const games = readGamesFromFile();
+//   const games = readGamesFromFile();
 
-  const game = games.find((existingGame) => existingGame.gameName === gameName);
+//   const game = games.find((existingGame) => existingGame.gameName === gameName);
 
-  if (game) {
-    if (!requestIsNew(game.lastUpdated, req.timestamp)) return;
+//   if (game) {
+//     if (!requestIsNew(game.lastUpdated, req.timestamp)) return;
 
-    game.blueTurn = !game.blueTurn;
+//     game.blueTurn = !game.blueTurn;
 
-    io.to(gameName).emit("updateGame", game);
-    writeGamesToFile(games);
-  }
-});
+//     io.to(gameName).emit("updateGame", game);
+//     writeGamesToFile(games);
+//   }
+// });
 
 /* Helper functions */
 // Determines winner
