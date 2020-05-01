@@ -54,10 +54,26 @@ const init = async () => {
   });
 };
 
-init();
+
+//SOCKETS----------------------------------------
+
+const socket = require("socket.io");
+
+const io = socket(init());
+
+io.on("connection", (socket) => {
+  socket.on("joinRoom", (roomName) => {
+    socket.join(roomName);
+  });
+
+  socket.on("disconnect", () => {});
+});
+
+//SOCKETS----------------------------------------
+
+// init();
 
 
 //^PostgreSQL Sequelize Postico Database^\\
-
 
 module.exports = app;
