@@ -4,7 +4,6 @@ const router = express.Router();
 const models = require("../models");
 // const wordList = require("../models/cards");
 const Games = models.Games;
-const Sequelize = require('sequelize')
 
 //Get all games in the database
 router.get("/", async (req, res, next) => {
@@ -295,60 +294,18 @@ function assignTeamsToCards(cards, blueCards, redCards) {
 
 
 
-//delete an existing game after createdAt time exceeds 24hrs.
-router.delete("/:gameName", async (req, res, next) => {
-  try {
-    let deleteGame = await Games.findOne({
-      where: {
-        gameName: req.params.gameName,
-      },
-    });
-    await deleteGame.destroy({ force: true });
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-//update an existing game when users click new game in room.
-router.put("/:gameName", async (req, res, next) => {
-  try {
-    let updateGame = await Games.findOne({
-      where: {
-        gameName: req.params.gameName,
-      },
-    });
-    res.json(updateGame);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-// update card state when it has been clicked.
-router.post("/:gameName/cardClicked", async (req, res, next) => {
-  try {
-    let cardClicked = await Games.findOne({
-      where: {
-        gameName: req.params.gameName,
-      },
-    });
-    res.status(200).send(cardClicked);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-//update game state when players pass on a turn.
-router.put("/:gameName/endTurn", async (req, res, next) => {
-  try {
-    let endTurn = await Games.findOne({
-      where: {
-        gameName: req.params.gameName,
-      },
-    });
-    res.status(200).send(endTurn);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
+// //delete an existing game after createdAt time exceeds 24hrs.
+// router.delete("/:gameName", async (req, res, next) => {
+//   try {
+//     let deleteGame = await Games.findOne({
+//       where: {
+//         gameName: req.params.gameName,
+//       },
+//     });
+//     await deleteGame.destroy({ force: true });
+//   } catch (error) {
+//     res.status(500).send(error);
+//   }
+// });
 
 module.exports = router;

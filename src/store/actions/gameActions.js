@@ -7,7 +7,7 @@ export function loadGame(gameName)
 {
   return {
     type: 'LOAD_GAME',
-    payload: axios.get(gameName)
+    payload: axios.post(gameName)
   };
 }
 
@@ -21,19 +21,19 @@ export function updateGame(game)
 
 export function startNewGame(gameName)
 {
-  axios.post(gameName + '/newGame', {
+  axios.put(gameName + '/newGame', {
     gameName
   });
 }
 
 export function endTurn(gameName)
 {
-  axios.get(gameName + '/endTurn');
+  axios.put(gameName + '/endTurn');
 }
 
 export function cardClick(gameName, cardIndex, teamClicked)
 {
-  axios.post(gameName + '/cardClicked', {
+  axios.put(gameName + '/cardClicked', {
     cardIndex,
     teamClicked
   });

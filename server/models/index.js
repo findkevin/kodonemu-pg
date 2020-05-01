@@ -3,7 +3,9 @@ const Sequelize = require("sequelize");
 
 console.log(chalk.yellow("Opening database connection"));
 
-// create the database instance that can be used in other database files and specify the server route.
+//Connect to the Postgres database. This is a seperate server from express.
+//Express will query from the Postgres database and server it up to the client.
+//React => Express => PostGres => Express => React
 const db = new Sequelize("postgres://localhost:5432/kodonemu", {
   logging: false, // so we don't see all the SQL query made
 });

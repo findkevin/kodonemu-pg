@@ -73,7 +73,7 @@ class Game extends Component {
           </h2>
           <p>
             Share this link with your friends to play together:
-            <Link>{window.location.href}</Link>
+            <Link to="">{window.location.href}</Link>
           </p>
 
           <div id="top-bar">

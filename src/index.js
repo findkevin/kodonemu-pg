@@ -11,7 +11,7 @@ import * as serviceWorker from "./serviceWorker";
 //Import Components
 import Game from "./components/Game";
 import HomePage from "./components/HomePage";
-import store from "./store";
+import store from "./store/index.js";
 
 const homeRouter = (
   <Router history={history}>
