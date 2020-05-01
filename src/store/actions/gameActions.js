@@ -7,7 +7,7 @@ export function loadGame(gameName)
 {
   return {
     type: 'LOAD_GAME',
-    payload: axios.post(gameName)
+    payload: axios.get(gameName)
   };
 }
 

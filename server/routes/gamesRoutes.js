@@ -17,7 +17,7 @@ router.get("/", async (req, res, next) => {
 });
 
 //Find a single game, if it doesnt exist... create a new one
-router.post("/:gameName", async (req, res, next) => {
+router.get("/:gameName", async (req, res, next) => {
   try {
     const gameName = req.params.gameName
     let [game, created] = await Games.findOrCreate({
@@ -221,7 +221,7 @@ function newGame(gameName, cardSets = ["VANILLA"]) {
 
   const blueTurn = blueCards > redCards;
 
-  console.log('---------------------------------Inside new game function')
+  console.log('---------------------------------------Inside new game function')
 
   return Object.assign({}, defaultGameState, {
     gameName,
@@ -241,6 +241,9 @@ function shuffle(array) {
     array[i] = array[j];
     array[j] = temp;
   }
+
+  console.log('---------------------------------------------Shuffling cards...')
+
   return array;
 }
 
@@ -258,6 +261,8 @@ function assignTeamsToCards(cards, blueCards, redCards) {
 
   // Assassin after the other cards
   cards[17].team = "Assassin";
+
+  console.log('----------------------------------------Assigned teams to cards')
 
   return shuffle(cards);
 }
