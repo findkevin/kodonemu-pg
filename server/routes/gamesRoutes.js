@@ -66,8 +66,8 @@ router.put("/:gameName/newGame", async (req, res, next) => {
 router.put('/:gameName/cardClicked', async (req, res, next) => {
   try {
     const gameName = req.params.gameName;
-    const cardIndex = 1 //req.body.cardIndex;
-    const teamClicked = 'Black' //req.body.teamClicked;
+    const cardIndex = req.body.cardIndex;
+    const teamClicked = req.body.teamClicked;
     const currentGame = await Games.findOne({
       where: {
         gameName: gameName,
@@ -92,6 +92,7 @@ router.put('/:gameName/cardClicked', async (req, res, next) => {
       }
     )
         // io.to(gameName).emit("updatedGame", updatedGame);
+    console.log('A card has been flipped!')
     res.status(200).json(updatedGame);
   } catch (error) {
     next(error)

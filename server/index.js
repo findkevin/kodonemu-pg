@@ -14,7 +14,10 @@ app.use(express.static(path.join(__dirname, "./public"))); //serving up static f
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-//CORS ERROR FIX? https://medium.com/@dtkatz/3-ways-to-fix-the-cors-error-and-how-access-control-allow-origin-works-d97d55946d9
+//CORS ERROR FIX?
+//LEARN: https://medium.com/@dtkatz/3-ways-to-fix-the-cors-error-and-how-access-control-allow-origin-works-d97d55946d9
+//IMPLEMENTED THIS SOLUTION: https://stackoverflow.com/questions/51231699/access-control-allow-origin-header-in-the-response-must-not-be-the-wildcard
+
 app.use( (req, res, next) => {
   res.header("Access-Control-Allow-Credentials", true);
   res.header("Access-Control-Allow-Origin", req.headers.origin);
@@ -24,7 +27,7 @@ app.use( (req, res, next) => {
     "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"
   );
   if ("OPTIONS" === req.method) {
-    res.send(200);
+    res.sendStatus(200);
   } else {
     next();
   }
