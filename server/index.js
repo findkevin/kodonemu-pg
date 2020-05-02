@@ -24,11 +24,6 @@ const init = async () => {
   });
 };
 
-// init();
-
-// const io = require('socket.io')(init())
-// app.set('socketio', io);
-
 const io = socket(init());
 
 io.on('connection', socket => {
