@@ -29,7 +29,6 @@ router.get("/:gameName", async (req, res, next) => {
     })
     created ? console.log('Created new game because we could not find an existing game.') : console.log('Found existing game!')
     res.json(game)
-    // io.to(gameName).emit("getGame", game)
   } catch (error) {
     next(error);
   }
@@ -52,8 +51,8 @@ router.put("/:gameName/newGame", async (req, res, next) => {
       }
     )
     console.log('Game has been updated!')
-    res.status(200).json(updatedGame)
     // io.to(gameName).emit("updatedGame", updatedGame);
+    res.status(200).json(updatedGame)
   } catch (error) {
     next(error)
   }
@@ -93,8 +92,8 @@ router.put('/:gameName/cardClicked', async (req, res, next) => {
       }
     )
     console.log('A card has been flipped!')
+    // io.to(gameName).emit("updatedGame", currentGame);
     res.status(200).json(updatedGame);
-    // io.to(gameName).emit("updatedGame", updatedGame);
   } catch (error) {
     next(error)
   }
@@ -133,8 +132,8 @@ router.put("/:gameName/endTurn", async (req, res, next) => {
       }
       )
       console.log('A Team has ended their turn.')
+      // io.to(gameName).emit("updatedGame", currentGame);
       res.status(200).json(updatedGame)
-      // io.to(gameName).emit("updatedGame", updatedGame);
   } catch (error) {
     next(error)
   }

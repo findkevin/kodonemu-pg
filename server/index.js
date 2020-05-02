@@ -7,7 +7,39 @@ const path = require("path");
 const apiRoutes = express.Router();
 const socket = require('socket.io')
 
+ //-----------------------------------------------------------------------
 
+models.db.authenticate().then(() => {
+  console.log("Connected to the PostGres database");
+});
+
+const PORT = 5000
+
+const init = async () => {
+  await
+  // models.db.sync() // Pass in {force: true} to drop all tables then recreates them based on our JS definitions
+  models.db.sync({force: true});
+  app.listen(PORT, () => {
+    console.log(chalk.yellow(`Server is listening on port ${PORT}!`));
+  });
+};
+
+// init();
+
+// const io = require('socket.io')(init())
+// app.set('socketio', io);
+
+const io = socket(init());
+
+io.on('connection', socket => {
+  socket.on('joinRoom', (roomName) => {
+    socket.join(roomName);
+  })
+
+  socket.on('disconnect', () => {});
+})
+
+//------------------------------------------------------------------------
 
 app.use(express.static(path.join(__dirname, "./public"))); //serving up static files (e.g. css files)
 app.use(express.urlencoded({ extended: false }));
@@ -33,36 +65,8 @@ app.use( (req, res, next) => {
 });
 
 app.use("/api", apiRoutes);
+
 apiRoutes.use('/games', require('./routes/gamesRoutes'));
-
- //-----------------------------------------------------------------------
-
-models.db.authenticate().then(() => {
-  console.log("Connected to the PostGres database");
-});
-
-const PORT = 5000
-
-const init = async () => {
-  await
-  // models.db.sync() // Pass in {force: true} to drop all tables then recreates them based on our JS definitions
-  models.db.sync({force: true});
-  app.listen(PORT, () => {
-    console.log(chalk.yellow(`Server is listening on port ${PORT}!`));
-  });
-};
-
-const io = socket(init());
-
-io.on('connection', socket => {
-  socket.on('joinRoom', (roomName) => {
-    socket.join(roomName);
-  })
-
-  socket.on('disconnect', () => {});
-})
-
-//------------------------------------------------------------------------
 
 app.get('/', function (req, res, next) {
   res.redirect('/');
@@ -70,8 +74,6 @@ app.get('/', function (req, res, next) {
 
 app.use((req, res, next) => {
   res.status(404).send("404 Not found");
-  // res.status(404).send(notFound());
-  // next(); //should we be calling next here? would every 404 go to our next middleware (500)?
 });
 
 app.use((err, req, res, next) => {
@@ -79,7 +81,6 @@ app.use((err, req, res, next) => {
   res.status(500).send(`
   <h1>Yay our 500 Server error is: ${err}</h1>
 `)
-  // res.status(500).render('this is our custom error message', {error: err})
 })
 
 
