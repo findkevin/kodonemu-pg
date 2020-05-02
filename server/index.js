@@ -6,7 +6,6 @@ const models = require("./models");
 const path = require("path");
 const apiRoutes = express.Router();
 const socket = require('socket.io')
-const request = require('request');
 
 
 
@@ -37,6 +36,7 @@ app.use("/api", apiRoutes);
 apiRoutes.use('/games', require('./routes/gamesRoutes'));
 
  //-----------------------------------------------------------------------
+
 models.db.authenticate().then(() => {
   console.log("Connected to the PostGres database");
 });
@@ -45,8 +45,7 @@ const PORT = 5000
 
 const init = async () => {
   await
-  // models.db.sync();
-  // this drops all tables then recreates them based on our JS definitions
+  // models.db.sync() // Pass in {force: true} to drop all tables then recreates them based on our JS definitions
   models.db.sync({force: true});
   app.listen(PORT, () => {
     console.log(chalk.yellow(`Server is listening on port ${PORT}!`));
@@ -67,15 +66,6 @@ io.on('connection', socket => {
 
 app.get('/', function (req, res, next) {
   res.redirect('/');
-  request(
-    { url: 'http://localhost:5000/'},
-    (error, response, body) => {
-      if(error || response.statusCode !== 200) {
-        return res.status(500).json({type: 'error', message: error.message})
-      }
-      res.json(JSON.parse(body));
-    }
-  )
 });
 
 app.use((req, res, next) => {

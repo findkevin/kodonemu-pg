@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const models = require("../models");
 const Games = models.Games;
+const io = require('socket.io')
 
 //Get all games in the database
 router.get("/", async (req, res, next) => {
@@ -27,8 +28,8 @@ router.get("/:gameName", async (req, res, next) => {
       defaults: newGame(gameName)
     })
     created ? console.log('Created new game because we could not find an existing game.') : console.log('Found existing game!')
-    // io.to(gameName).emit("getGame", game)
     res.json(game)
+    // io.to(gameName).emit("getGame", game)
   } catch (error) {
     next(error);
   }
@@ -51,8 +52,8 @@ router.put("/:gameName/newGame", async (req, res, next) => {
       }
     )
     console.log('Game has been updated!')
-      // io.to(gameName).emit("updatedGame", updatedGame);
     res.status(200).json(updatedGame)
+    // io.to(gameName).emit("updatedGame", updatedGame);
   } catch (error) {
     next(error)
   }
@@ -91,9 +92,9 @@ router.put('/:gameName/cardClicked', async (req, res, next) => {
         returning: true
       }
     )
-        // io.to(gameName).emit("updatedGame", updatedGame);
     console.log('A card has been flipped!')
     res.status(200).json(updatedGame);
+    // io.to(gameName).emit("updatedGame", updatedGame);
   } catch (error) {
     next(error)
   }
@@ -131,8 +132,9 @@ router.put("/:gameName/endTurn", async (req, res, next) => {
         returning: true
       }
       )
+      console.log('A Team has ended their turn.')
+      res.status(200).json(updatedGame)
       // io.to(gameName).emit("updatedGame", updatedGame);
-    res.status(200).json(updatedGame)
   } catch (error) {
     next(error)
   }
