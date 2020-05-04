@@ -163,7 +163,7 @@ class Game extends Component {
 
   cardClick(cardIndex) {
     const teamClicked = this.props.game.blueTurn ? "Blue" : "Red";
-    cardClick(this.props.game.gameName, cardIndex, teamClicked);
+    this.props.dispatch(cardClick(this.props.game.gameName, cardIndex, teamClicked));
   }
 
   endTurn() {
