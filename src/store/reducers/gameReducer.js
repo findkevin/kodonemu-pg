@@ -1,4 +1,4 @@
-export default function reducer(state = {
+const initialState = {
   cards: [],
   gameName: null,
   blueTurn: false,
@@ -6,19 +6,19 @@ export default function reducer(state = {
   blueCards: 0,
   winner: null,
   blueTeamFirst: false
-}, action)
+}
+
+export default function reducer(state = initialState, action)
 {
   switch (action.type)
   {
     case 'LOAD_GAME_FULFILLED':
     {
-      const newData = action.payload.data;
-      return Object.assign({}, state, newData);
+      return action.payload.data
     }
     case 'UPDATE_GAME':
     {
-      const newData = action.payload;
-      return Object.assign({}, state, newData);
+      return action.payload
     }
     default:
     {
