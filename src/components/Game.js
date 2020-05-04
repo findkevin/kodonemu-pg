@@ -158,7 +158,7 @@ class Game extends Component {
   }
 
   newGame() {
-    startNewGame(this.props.game.gameName);
+    this.props.dispatch(startNewGame(this.props.game.gameName));
   }
 
   cardClick(cardIndex) {
