@@ -5,7 +5,11 @@ const chalk = require("chalk");
 const models = require("./models");
 const path = require("path");
 const apiRoutes = express.Router();
-const socket = require('socket.io')
+
+const socketio = require('socket.io')
+const http = require('http')
+const server = http.createServer(app)
+const io = socketio(server)
 
  //-----------------------------------------------------------------------
 
@@ -13,25 +17,28 @@ models.db.authenticate().then(() => {
   console.log("Connected to the PostGres database");
 });
 
-const PORT = 5000
+const PORT = 5000 || process.env.PORT;
 
 const init = async () => {
   await
   // models.db.sync() // Pass in {force: true} to drop all tables then recreates them based on our JS definitions
   models.db.sync({force: true});
-  app.listen(PORT, () => {
+  server.listen(PORT, () => {
     console.log(chalk.yellow(`Server is listening on port ${PORT}!`));
   });
 };
 
-const io = socket(init());
+init()
 
 io.on('connection', socket => {
-  socket.on('joinRoom', (roomName) => {
+    console.log('Socket connection successful.')
+    socket.on('joinRoom', (roomName) => {
     socket.join(roomName);
   })
 
-  socket.on('disconnect', () => {});
+  socket.on('disconnect', () => {
+    console.log('Disconnected from Socket.')
+  });
 })
 
 //------------------------------------------------------------------------
