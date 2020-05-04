@@ -33,7 +33,8 @@ init()
 io.on('connection', socket => {
     console.log('Socket connection successful.')
     socket.on('joinRoom', (roomName) => {
-    socket.join(roomName);
+      socket.join(roomName);
+      console.log('Someone joined the game.')
   })
 
   socket.on('disconnect', () => {
