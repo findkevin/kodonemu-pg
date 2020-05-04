@@ -34,21 +34,18 @@ export const startNewGame = (gameName) => {
   }
 }
 
-export function endTurn(gameName)
-{
-  axios.put(gameName + '/endTurn');
+export const endTurn = (gameName) => {
+  return async function (dispatch) {
+    try {
+      const {data} = await axios.put(gameName + '/endTurn', {
+        gameName
+      })
+      dispatch(updateGame(data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
 }
-
-// export const endTurn = (gameName) => {
-//   return async function (dispatch) {
-//     try {
-//       const {data} = await axios.put(gameName + '/endTurn')
-//       dispatch(updateGame(data))
-//     } catch (error) {
-//       console.error(error)
-//     }
-//   }
-// }
 
 export function cardClick(gameName, cardIndex, teamClicked)
 {

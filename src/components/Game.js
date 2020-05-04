@@ -167,7 +167,7 @@ class Game extends Component {
   }
 
   endTurn() {
-    endTurn(this.props.game.gameName);
+    this.props.dispatch(endTurn(this.props.game.gameName));
   }
 }
 
