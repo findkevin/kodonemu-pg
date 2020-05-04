@@ -24,7 +24,7 @@ const init = async () => {
   // models.db.sync() // Pass in {force: true} to drop all tables then recreates them based on our JS definitions
   models.db.sync({force: true});
   server.listen(PORT, () => {
-    console.log(chalk.yellow(`Server is listening on port ${PORT}!`));
+    console.log(chalk.yellow(`Codenames server is listening on port ${PORT}!`));
   });
 };
 

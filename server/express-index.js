@@ -8,33 +8,33 @@ const schedule = require("node-schedule");
 const path = require('path')
 const serveStatic = require('serve-static')
 
-// const wordList = require("./models/cards");
+const wordList = require("./models/cards");
 
 const app = express();
-// app.use(serveStatic(path.join(__dirname, 'dist')))
+app.use(serveStatic(path.join(__dirname, 'dist')))
 
 
-// const defaultGameState = {
-//   cards: [],
-//   gameName: null,
-//   blueTurn: false,
-//   redCards: 0,
-//   blueCards: 0,
-//   winner: null,
-//   blueTeamFirst: false,
-// };
+const defaultGameState = {
+  cards: [],
+  gameName: null,
+  blueTurn: false,
+  redCards: 0,
+  blueCards: 0,
+  winner: null,
+  blueTeamFirst: false,
+};
 
 // Body Parser allows reading of JSON from POST and/or URL parameters
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//     );
-//     next();
-//   });
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+  });
 
   // Use the express timestamp library https://www.npmjs.com/package/express-timestamp
   // app.use(time.init);
@@ -58,13 +58,13 @@ io.on("connection", (socket) => {
 });
 
 // Route to /api using Express Router to make sure we are getting our words from the wordList.
-// const apiRoutes = express.Router();
-// app.use("/api", apiRoutes);
+const apiRoutes = express.Router();
+app.use("/api", apiRoutes);
 
-// apiRoutes.get('/', (req, res) => {
-//   const games = readGamesFromFile();
-//   res.json(games);
-// })
+apiRoutes.get('/', (req, res) => {
+  const games = readGamesFromFile();
+  res.json(games);
+})
 
 // apiRoutes.get("/:gameName", (req, res) => {
 //   const gameName = req.params.gameName;
@@ -86,36 +86,36 @@ io.on("connection", (socket) => {
 //   res.json(game); // Shouldn't emit game state every time someone loads
 // });
 
-// apiRoutes.post("/:gameName/newGame", (req, res) => {
-//   res.sendStatus(200);
+apiRoutes.post("/:gameName/newGame", (req, res) => {
+  res.sendStatus(200);
 
-//   const gameName = req.params.gameName;
-//   const cardSets = req.body.expansions;
+  const gameName = req.params.gameName;
+  const cardSets = req.body.expansions;
 
-//   const games = readGamesFromFile();
+  const games = readGamesFromFile();
 
-//   let game = Object.assign({}, newGame(cardSets), { gameName });
+  let game = Object.assign({}, newGame(cardSets), { gameName });
 
-//   const gameFromStorage = games.find(
-//     (existingGame) => existingGame.gameName === game.gameName
-//   );
+  const gameFromStorage = games.find(
+    (existingGame) => existingGame.gameName === game.gameName
+  );
 
-//   if (gameFromStorage) {
-//     if (!requestIsNew(gameFromStorage.lastUpdated, req.timestamp)) return;
+  if (gameFromStorage) {
+    if (!requestIsNew(gameFromStorage.lastUpdated, req.timestamp)) return;
 
-//     // Timestamp the game
-//     game.gameStartTime = req.timestamp;
-//     game.lastUpdated = req.timestamp;
+    // Timestamp the game
+    game.gameStartTime = req.timestamp;
+    game.lastUpdated = req.timestamp;
 
-//     // Update existing game
-//     game = Object.assign(gameFromStorage, game);
-//   } else {
-//     games.push(game);
-//   }
+    // Update existing game
+    game = Object.assign(gameFromStorage, game);
+  } else {
+    games.push(game);
+  }
 
-//   io.to(gameName).emit("updateGame", game);
-//   writeGamesToFile(games);
-// });
+  io.to(gameName).emit("updateGame", game);
+  writeGamesToFile(games);
+});
 
 // apiRoutes.post("/:gameName/cardClicked", (req, res) => {
 //   res.sendStatus(200);

@@ -37,14 +37,12 @@ class Game extends Component {
     this.changeRole = this.changeRole.bind(this);
     this.loadGame = this.loadGame.bind(this);
 
-    // Socket room and connection
-    this.state.socket.emit("joinRoom", this.state.gameName);
+      // Socket room and connection
+      this.state.socket.emit('joinRoom', this.state.gameName);
 
-    this.state.socket.on("updateGame", (game) =>
-      props.dispatch(updateGame(game))
-    );
+      this.state.socket.on('updateGame', game => props.dispatch(updateGame(game)));
 
-    this.loadGame(this.state.gameName);
+      this.loadGame(this.state.gameName);
   }
 
   render() {
