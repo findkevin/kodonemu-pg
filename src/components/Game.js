@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import io from "socket.io-client";
 
 import Board from "./Board";
-import CodeNames from '../images/CodeNames.png'
+import CodeNames from '../images/Kodonemu.png'
 import { connect } from "react-redux";
 
 import { changeRole } from "../store/actions/userOptionsActions";

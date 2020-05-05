@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import history from "../history/index";
 
-import CodeNames from "../images/CodeNames.png";
+import CodeNames from "../images/Kodonemu.png";
 import GitHubMark from "../images/GitHub-Mark-32px.png";
 
 class HomePage extends Component {
