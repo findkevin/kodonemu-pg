@@ -1,3 +1,3 @@
-export const socketUrl = "ec2-52-87-135-240.compute-1.amazonaws.com";
+export const socketUrl = "http://localhost:5000";
 
-export const serverUrl = "ec2-52-87-135-240.compute-1.amazonaws.com/api/games";
+export const serverUrl = "http://localhost:5000/api/games";
