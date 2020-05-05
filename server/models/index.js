@@ -6,7 +6,8 @@ console.log(chalk.yellow("Opening database connection"));
 //Connect to the Postgres database. This is a seperate server from express.
 //Express will query from the Postgres database and server it up to the client.
 //React => Express => PostGres => Express => React
-const db = new Sequelize("postgres://localhost:5432/kodonemu", {
+const db = new Sequelize(`postgres://khbmgttdmrxrpm:a8a1ecb4c8c9c9f5d223e2ac8e963d8d577604200bfd834e22d062aa48db8a68@ec2-52-87-135-240.compute-1.amazonaws.com:5432/d3imk13lkatheg
+`, {
   logging: false, // so we don't see all the SQL query made
 });
 
