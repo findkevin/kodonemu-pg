@@ -3,7 +3,7 @@ const router = express.Router();
 const models = require("../models");
 const Games = models.Games;
 
-const io = require("socket.io")
+const io = require("socket.io")()
 
 //Get all games in the database
 router.get("/", async (req, res, next) => {
@@ -52,7 +52,7 @@ router.put("/:gameName/newGame", async (req, res, next) => {
       }
     )
     console.log('Game has been updated!')
-    // io.to(gameName).emit("updatedGame", updatedGame);
+    io.to(gameName).emit("updateGame", updatedGame);
     res.status(200).json(updatedGame)
   } catch (error) {
     next(error)
@@ -93,7 +93,7 @@ router.put('/:gameName/cardClicked', async (req, res, next) => {
       }
     )
     console.log('A card has been flipped!')
-    // io.to(gameName).emit("updatedGame", currentGame);
+    io.to(gameName).emit("updateGame", updatedGame);
     res.status(200).json(updatedGame);
   } catch (error) {
     next(error)
@@ -133,7 +133,7 @@ router.put("/:gameName/endTurn", async (req, res, next) => {
       }
       )
       console.log('A Team has ended their turn.')
-      // io.to(gameName).emit("updatedGame", currentGame);
+      io.to(gameName).emit("updateGame", updatedGame);
       res.status(200).json(updatedGame)
   } catch (error) {
     next(error)
