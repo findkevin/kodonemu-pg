@@ -1,3 +1,3 @@
-export const socketUrl = 'http://localhost:5000/';
+export const socketUrl = process.env.DATABASE_URL|| 'http://localhost:5000/';
 
-export const serverUrl = "http://localhost:5000/api/games";
+export const serverUrl = process.env.DATABASE_URL || "http://localhost:5000/api/games";
