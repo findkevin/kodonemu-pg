@@ -17,7 +17,7 @@ models.db.authenticate().then(() => {
   console.log("Connected to the PostGres database");
 });
 
-const PORT = 5000 || process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 const init = async () => {
   await
