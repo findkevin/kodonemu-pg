@@ -5,42 +5,26 @@ const bodyParser = require('body-parser');
 const chalk = require("chalk");
 const models = require("./models");
 const apiRoutes = express.Router();
-
-const socket = require('socket.io')
+const path = require('path')
 
  //-----------------------------------------------------------------------
+const PORT = process.env.PORT || 5000;
+const server = require('http').createServer(app)
+const io = require('socket.io')(server);
+
+require('./socket/sockets')(io);
 
 models.db.authenticate().then(() => {
-  console.log("Connected to the PostGres database");
+  console.log(chalk.yellow("Connected to the PostGres database"));
 });
-
-const PORT = process.env.PORT || 5000;
 
 const init = async () => {
   await
-  // models.db.sync() // Pass in {force: true} to drop all tables then recreates them based on our JS definitions
-  models.db.sync({force: true});
+  models.db.sync() // Pass in {force: true} to drop all tables then recreates them based on our JS definitions
+  // models.db.sync({force: true});
 };
 
 init()
-
-const server = app.listen(PORT, () => {
-  console.log(chalk.yellow(`Codenames server is listening on port ${PORT}!`));
-});
-
-const io = socket(server)
-
-io.on('connection', socket => {
-  console.log(`A socket connection to the server has been made: ${socket.id}`)
-  socket.on('joinRoom', (roomName) => {
-      socket.join(roomName);
-      console.log('Someone joined the game.')
-  })
-
-  socket.on('disconnect', () => {
-    console.log(`Connection ${socket.id} has left the building`)
-  });
-})
 
 //------------------------------------------------------------------------
 
@@ -57,12 +41,14 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use("/api", apiRoutes);
 
 apiRoutes.use('/games', require('./routes/gamesRoutes'));
 
 // app.get('/', function (req, res, next) {
-//   res.redirect('/');
+//   res.sendFile(__dirname + '/index.html');
 // });
 
 app.use((req, res, next) => {
@@ -76,11 +62,8 @@ app.use((err, req, res, next) => {
 `)
 })
 
-
-
-//Express Router--------------------------END-----------------------------
-
-
-//^PostgreSQL Sequelize Postico Database^\\
+server.listen(PORT, function(){
+  console.log(`App is now listening on PORT ${PORT}`)
+})
 
 module.exports = app;

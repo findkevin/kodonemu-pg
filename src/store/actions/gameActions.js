@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { serverUrl } from '../../config/serverUrl';
-import { bindActionCreators } from 'redux';
 
 axios.defaults.baseURL = serverUrl;
 

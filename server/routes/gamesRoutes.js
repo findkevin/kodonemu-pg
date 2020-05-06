@@ -3,7 +3,8 @@ const router = express.Router();
 const models = require("../models");
 const Games = models.Games;
 
-const io = require("socket.io")(80)
+const io = require('socket.io')();
+require('../socket/sockets')
 
 //Get all games in the database
 router.get("/", async (req, res, next) => {
