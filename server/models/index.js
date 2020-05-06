@@ -6,10 +6,27 @@ console.log(chalk.yellow("Opening database connection"));
 //Connect to the Postgres database. This is a seperate server from express.
 //Express will query from the Postgres database and server it up to the client.
 //React => Express => PostGres => Express => React
-const db = new Sequelize("postgres://localhost:5432/kodonemu", {
+// const db = new Sequelize("postgres://localhost:5432/kodonemu", {
+//   logging: false, // so we don't see all the SQL query made
+// });
+let db
+
+if(process.env.DATABSE_URL){
+  // the application is executed on Heroku ... use the postgres database
+  db = new Sequelize(process.env.DATABASE_URL,
+  {
+    dialect: "postgres",
+    protocol: "postgres",
+    port: process.env.port,
+    host: process.env.host,
+    logging: true //false
+ });
+ } else {
+ // the application is executed on the local machine ... use mysql
+ db = new Sequelize("postgres://localhost:5432/kodonemu", {
   logging: false, // so we don't see all the SQL query made
 });
-
+}
 
 
 // don't forget to run our models files and make all associations for our Sequelize objects (if you do it here consider circular references)
