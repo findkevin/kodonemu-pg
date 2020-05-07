@@ -11,7 +11,7 @@ console.log(chalk.yellow("Opening database connection"));
 // });
 let db
 
-if(process.env.DATABSE_URL){
+if(process.env.DATABASE_URL){
   // the application is executed on Heroku ... use the postgres database
   db = new Sequelize(process.env.DATABASE_URL,
   {
