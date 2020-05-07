@@ -1,3 +1,3 @@
-export const socketUrl = 'http://localhost:5000/api';
+export const socketUrl = 'https://kodonemu-server-pg.herokuapp.com/';
 
-export const serverUrl = "http://localhost:5000/api/games";
+export const serverUrl = "https://kodonemu-server-pg.herokuapp.com/api/games";
