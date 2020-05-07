@@ -1,16 +1,16 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const socket = require("socket.io");
-const fs = require("fs");
-const time = require("express-timestamp");
-const moment = require("moment");
-const schedule = require("node-schedule");
-const path = require('path')
-const serveStatic = require('serve-static')
+// const express = require("express");
+// const bodyParser = require("body-parser");
+// const socket = require("socket.io");
+// const fs = require("fs");
+// const time = require("express-timestamp");
+// const moment = require("moment");
+// const schedule = require("node-schedule");
+// const path = require('path')
+// const serveStatic = require('serve-static')
 
 // const wordList = require("./models/cards");
 
-const app = express();
+// const app = express();
 // app.use(serveStatic(path.join(__dirname, 'dist')))
 
 
@@ -39,23 +39,23 @@ const app = express();
   // Use the express timestamp library https://www.npmjs.com/package/express-timestamp
   // app.use(time.init);
 
-  const PORT = 5000;
+  // const PORT = 5000;
 
   //Initialize our server port to localhost:5000
-  const server = app.listen(PORT, "localhost", () =>
-  console.log(`Codenames server listening on port ${PORT}`)
-  );
+  // const server = app.listen(PORT, "localhost", () =>
+  // console.log(`Codenames server listening on port ${PORT}`)
+  // );
 
 //Initialize sockets using socket.io
-const io = socket(server);
+// const io = socket(server);
 
-io.on("connection", (socket) => {
-  socket.on("joinRoom", (roomName) => {
-    socket.join(roomName);
-  });
+// io.on("connection", (socket) => {
+//   socket.on("joinRoom", (roomName) => {
+//     socket.join(roomName);
+//   });
 
-  socket.on("disconnect", () => {});
-});
+//   socket.on("disconnect", () => {});
+// });
 
 // Route to /api using Express Router to make sure we are getting our words from the wordList.
 // const apiRoutes = express.Router();
@@ -183,54 +183,54 @@ io.on("connection", (socket) => {
 
 /* Helper functions */
 // Determines winner
-function calculateCardsRemaining(cards) {
-  const cardCount = {
-    blueTeam: 0,
-    redTeam: 0,
-  };
+// function calculateCardsRemaining(cards) {
+//   const cardCount = {
+//     blueTeam: 0,
+//     redTeam: 0,
+//   };
 
-  if (cards.length) {
-    const blueCardsRemaining = cards.filter(
-      (card) => card.team === "Blue" && !card.clicked
-    );
-    cardCount.blueTeam = blueCardsRemaining.length;
+//   if (cards.length) {
+//     const blueCardsRemaining = cards.filter(
+//       (card) => card.team === "Blue" && !card.clicked
+//     );
+//     cardCount.blueTeam = blueCardsRemaining.length;
 
-    const redCardsRemaining = cards.filter(
-      (card) => card.team === "Red" && !card.clicked
-    );
-    cardCount.redTeam = redCardsRemaining.length;
-  }
+//     const redCardsRemaining = cards.filter(
+//       (card) => card.team === "Red" && !card.clicked
+//     );
+//     cardCount.redTeam = redCardsRemaining.length;
+//   }
 
-  return cardCount;
-}
+//   return cardCount;
+// }
 
-function determineWinner(cards) {
-  if (cards.length) {
-    const assassinCard = cards.find(
-      (card) => card.team === "Assassin" && card.clicked
-    );
+// function determineWinner(cards) {
+//   if (cards.length) {
+//     const assassinCard = cards.find(
+//       (card) => card.team === "Assassin" && card.clicked
+//     );
 
-    if (assassinCard) {
-      if (assassinCard.teamClicked === "Red") {
-        return "Blue";
-      } else {
-        return "Red";
-      }
-    }
+//     if (assassinCard) {
+//       if (assassinCard.teamClicked === "Red") {
+//         return "Blue";
+//       } else {
+//         return "Red";
+//       }
+//     }
 
-    const cardsRemaining = calculateCardsRemaining(cards);
+//     const cardsRemaining = calculateCardsRemaining(cards);
 
-    if (cardsRemaining.blueTeam === 0) {
-      return "Blue";
-    }
+//     if (cardsRemaining.blueTeam === 0) {
+//       return "Blue";
+//     }
 
-    if (cardsRemaining.redTeam === 0) {
-      return "Red";
-    }
-  }
+//     if (cardsRemaining.redTeam === 0) {
+//       return "Red";
+//     }
+//   }
 
-  return null;
-}
+//   return null;
+// }
 
 // Creates a new game
 // function newGame(cardSets = ["VANILLA"]) {
@@ -331,46 +331,46 @@ function determineWinner(cards) {
 // }
 
 // Tests to see if the request time is newer than the game's lastUpdated time
-function requestIsNew(gameTime, requestTime) {
-  // Both times *should* be in a momentjs readable format
-  if (moment(requestTime).isAfter(moment(gameTime))) {
-    return true;
-  }
-  return false;
-}
+// function requestIsNew(gameTime, requestTime) {
+//   // Both times *should* be in a momentjs readable format
+//   if (moment(requestTime).isAfter(moment(gameTime))) {
+//     return true;
+//   }
+//   return false;
+// }
 
-function logError(err) {
-  console.error(err);
-}
+// function logError(err) {
+//   console.error(err);
+// }
 
-function readGamesFromFile() {
-  const gamesFile = fs.readFileSync(__dirname + "/models/games.json");
-  let games = JSON.parse(gamesFile);
-  return games;
-}
+// function readGamesFromFile() {
+//   const gamesFile = fs.readFileSync(__dirname + "/models/games.json");
+//   let games = JSON.parse(gamesFile);
+//   return games;
+// }
 
-function writeGamesToFile(games) {
-  fs.writeFileSync(
-    __dirname + "/models/games.json",
-    JSON.stringify(games, null, 2),
-    (err) => logError(err)
-  );
-}
+// function writeGamesToFile(games) {
+//   fs.writeFileSync(
+//     __dirname + "/models/games.json",
+//     JSON.stringify(games, null, 2),
+//     (err) => logError(err)
+//   );
+// }
 
 /* Scheduled functions */
 
 // Checks games every hour for games older than 12 hours, deletes them
 // Sets the rule to search on every 0 minute (start of every hour)
-const rule = new schedule.RecurrenceRule();
-rule.minute = 0;
+// const rule = new schedule.RecurrenceRule();
+// rule.minute = 0;
 
-schedule.scheduleJob(rule, function () {
-  const games = readGamesFromFile();
+// schedule.scheduleJob(rule, function () {
+//   const games = readGamesFromFile();
 
-  // Filter out any games updated more than 12 hours ago
-  const trimmedGames = games.filter((game) =>
-    moment(game.lastUpdated).isAfter(moment().subtract(12, "hours"))
-  );
+//   // Filter out any games updated more than 12 hours ago
+//   const trimmedGames = games.filter((game) =>
+//     moment(game.lastUpdated).isAfter(moment().subtract(12, "hours"))
+//   );
 
-  writeGamesToFile(trimmedGames);
-});
+//   writeGamesToFile(trimmedGames);
+// });
