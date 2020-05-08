@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { serverUrl } from '../../config/serverUrl';
+import { serverUrl, socketUrl } from '../../config/serverUrl';
+import socket from 'socket.io-client'
 
 axios.defaults.baseURL = serverUrl;
 
@@ -26,7 +27,7 @@ export const startNewGame = (gameName) => {
       const {data} = await axios.put(gameName + '/newGame', {
         gameName
       })
-      dispatch(updateGame(data))
+      socket(socketUrl).emit('updateGame', dispatch(updateGame(data)))
     } catch (error) {
       console.error(error)
     }
@@ -39,7 +40,7 @@ export const endTurn = (gameName) => {
       const {data} = await axios.put(gameName + '/endTurn', {
         gameName
       })
-      dispatch(updateGame(data))
+      socket(socketUrl).emit('updateGame', dispatch(updateGame(data)))
     } catch (error) {
       console.error(error)
     }
@@ -53,7 +54,7 @@ export const cardClick = (gameName, cardIndex, teamClicked) => {
         cardIndex,
         teamClicked
       })
-      dispatch(updateGame(data))
+      socket(socketUrl).emit('updateGame', dispatch(updateGame(data)))
     } catch (error) {
       console.error(error)
     }

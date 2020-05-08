@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 5000;
 const server = require('http').createServer(app)
 const io = require('socket.io')(server);
 
-// require('./socket/sockets')(io);
+require('./socket/sockets')(io);
 
 models.db.authenticate().then(() => {
   console.log(chalk.yellow("Connected to the PostGres database"));
@@ -61,43 +61,6 @@ app.use((err, req, res, next) => {
   <h1>Yay our 500 Server error is: ${err}</h1>
 `)
 })
-
-let clients = 0;
-let interval;
-
-io.on('connection', socket => {
-  clients++
-  console.log(`A socket connection to the server has been made: ${socket.id}`)
-  console.log(`There are ${clients} players in the server.`)
-
-  if (interval) {
-    clearInterval(interval);
-  }
-  interval = setInterval(() => getApiAndEmit(socket), 1000);
-
-  socket.on('joinRoom', (gameName) => {
-      socket.join(gameName);
-  })
-
-  socket.on('updateGame', (data) => {
-    console.log('update game:', data);
-    io.emit('emit-updateGame', data)
-    socket.emit('emit-updateGame', data)
-  })
-
-  socket.on('disconnect', () => {
-    clients--
-    console.log(`Connection ${socket.id} has left the building`)
-    console.log(`There are ${clients} players in the server.`)
-    clearInterval(interval);
-  });
-})
-
-const getApiAndEmit = socket => {
-  const response = new Date();
-  // Emitting a new message. Will be consumed by the client
-  socket.emit("FromAPI", response);
-};
 
 server.listen(PORT, function(){
   console.log(`App is now listening on PORT ${PORT}`)
