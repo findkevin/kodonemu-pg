@@ -29,7 +29,7 @@ class Game extends Component {
       gameName: window.location.pathname.split("/")[1].toLowerCase(),
 
       // Websocket to receive data from the server
-      socket: io.connect(socketUrl),
+      socket: io(socketUrl),
     };
 
     this.newGame = this.newGame.bind(this);
@@ -41,7 +41,7 @@ class Game extends Component {
     this.state.socket.emit('joinRoom', this.state.gameName);
 
     this.state.socket.on('updateGame', (game) => {
-      props.dispatch(updateGame(game))
+      this.props.dispatch(updateGame(game))
     });
 
     this.loadGame(this.state.gameName);
