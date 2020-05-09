@@ -18,7 +18,7 @@ export default function reducer(state = initialState, action)
     }
     case 'UPDATE_GAME':
     {
-      return action.payload
+      return state = {...action.payload}
     }
     default:
     {

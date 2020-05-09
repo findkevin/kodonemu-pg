@@ -36,16 +36,26 @@ class Game extends Component {
     this.endTurn = this.endTurn.bind(this);
     this.changeRole = this.changeRole.bind(this);
     this.loadGame = this.loadGame.bind(this);
+    this.updateGame = this.updateGame.bind(this)
 
     // Socket room and connection
     this.state.socket.emit('joinRoom', this.state.gameName);
 
-    this.state.socket.on('updateGame', (game) => {
-      props.dispatch(updateGame(game))
-    });
+    // this.state.socket.on('updateGame', (game) => {
+    //   this.updateGame(game)
+    // });
 
     this.loadGame(this.state.gameName);
   }
+
+  componentDidMount(){
+    // console.log('THIS STATE SOCKET', this.state.socket);
+    // this.state.socket.emit('updateGame', 'updategame this state component mount.');
+    this.state.socket.on('updateGame', (data) => {
+      this.updateGame(data)
+    });
+  }
+
 
   render() {
     const winner = this.props.game.winner;
@@ -155,6 +165,10 @@ class Game extends Component {
   /* Server actions */
   loadGame(gameName) {
     this.props.dispatch(loadGame(gameName));
+  }
+
+  updateGame(game) {
+    this.props.dispatch(updateGame(game))
   }
 
   newGame() {

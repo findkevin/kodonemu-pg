@@ -7,15 +7,16 @@ module.exports = function (io) {
     console.log(`There are ${clients} players in the server.`)
 
     socket.on('joinRoom', (gameName) => {
-        socket.join(gameName);
-        io.emit('emit-room', gameName)
-        socket.emit('emit-room', gameName)
+        console.log('JOIN ROOM', gameName)
+        // socket.join(gameName);
+        // io.emit('joinRoom', gameName)
+        socket.emit('joinRoom', gameName)
     })
 
     socket.on('updateGame', (data) => {
-      console.log('update game:', data);
-      io.emit('emit-updateGame', data)
-      socket.emit('emit-updateGame', data)
+      console.log('update game:', data.payload);
+      socket.emit('updateGame', data)
+      io.emit('updateGame', data.payload)
     })
 
     socket.on('disconnect', () => {
