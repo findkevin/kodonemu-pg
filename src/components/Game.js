@@ -41,12 +41,21 @@ class Game extends Component {
     // Socket room and connection
     this.state.socket.emit('joinRoom', this.state.gameName);
 
-    this.state.socket.on('updateGame', (game) => {
-      this.updateGame(game)
-    });
+    // this.state.socket.on('updateGame', (game) => {
+    //   this.updateGame(game)
+    // });
 
     this.loadGame(this.state.gameName);
   }
+
+  componentDidMount(){
+    // console.log('THIS STATE SOCKET', this.state.socket);
+    // this.state.socket.emit('updateGame', 'updategame this state component mount.');
+    this.state.socket.on('updateGame', (data) => {
+      this.updateGame(data)
+    });
+  }
+
 
   render() {
     const winner = this.props.game.winner;
