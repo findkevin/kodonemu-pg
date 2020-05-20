@@ -6,9 +6,6 @@ console.log(chalk.yellow("Opening database connection"));
 //Connect to the Postgres database. This is a seperate server from express.
 //Express will query from the Postgres database and server it up to the client.
 //React => Express => PostGres => Express => React
-// const db = new Sequelize("postgres://localhost:5432/kodonemu", {
-//   logging: false, // so we don't see all the SQL query made
-// });
 let db
 
 if(process.env.DATABASE_URL){
@@ -19,7 +16,7 @@ if(process.env.DATABASE_URL){
     protocol: "postgres",
     port: process.env.port,
     host: process.env.host,
-    logging: true //false
+    logging: true
  });
  } else {
  // the application is executed on the local machine ... use mysql
@@ -27,9 +24,6 @@ if(process.env.DATABASE_URL){
   logging: false, // so we don't see all the SQL query made
 });
 }
-
-
-// don't forget to run our models files and make all associations for our Sequelize objects (if you do it here consider circular references)
 
 const Games = db.define("games", {
   cards: {
@@ -53,15 +47,7 @@ const Games = db.define("games", {
   },
   blueTeamFirst: {
     type: Sequelize.BOOLEAN,
-  },
-  //Postgres default createdAt column.
-  // gameStartTime: {
-  //   type: Sequelize.NOW,
-  // },
-    //Postgres default updatedAt column.
-  // lastUpdated: {
-  //   type: Sequelize.NOW,
-  // }
+  }
 });
 
 module.exports = { db, Games };

@@ -6,7 +6,6 @@ const Games = models.Games;
 const io = require('socket.io')();
 require('../socket/sockets')
 
-//Get all games in the database
 router.get("/", async (req, res, next) => {
   try {
     let allGames = await Games.findAll();
@@ -17,9 +16,6 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-//------------------------------------------------------------------------
-
-//Find a single game, if it doesnt exist... create a new one
 router.get("/:gameName", async (req, res, next) => {
   try {
     const gameName = req.params.gameName
@@ -36,10 +32,6 @@ router.get("/:gameName", async (req, res, next) => {
   }
 });
 
-//------------------------------------------------------------------------
-
-//update an existing game with new game state.
-//search db, find game by name, give game new state, keep the game name.
 router.put("/:gameName/newGame", async (req, res, next) => {
   try {
     const gameName = req.params.gameName
@@ -60,11 +52,7 @@ router.put("/:gameName/newGame", async (req, res, next) => {
   }
 })
 
-//------------------------------------------------------------------------
 
-//find the existing game, check card value if it has been clicked.
-//dont click the card if already clicked or game is over
-//end turn if its not the teams card.
 router.put('/:gameName/cardClicked', async (req, res, next) => {
   try {
     const gameName = req.params.gameName;
@@ -78,14 +66,37 @@ router.put('/:gameName/cardClicked', async (req, res, next) => {
 
     //Make a copy all cards from current game.
     let cardsArray = [...currentGame.cards]
-    //Get the single card from our copy and change its values
-    let selectedCard = {...cardsArray[cardIndex], clicked: true, teamClicked}
-    //Return the array with new card values.
-    cardsArray[cardIndex] = selectedCard
+    let selectedCard;
+    let blueTurn = currentGame.blueTurn;
+    let redCards = currentGame.redCards;
+    let blueCards = currentGame.blueCards;
+    let winner = currentGame.winner;
+
+    if(!(currentGame.winner || cardsArray[cardIndex].clicked)){
+      //Get the single card from our copy and change its values for clicked and which team clicked the card.
+      selectedCard = {...cardsArray[cardIndex], clicked: true, teamClicked}
+
+      const cardsRemaining = calculateCardsRemaining(currentGame.cards)
+
+      redCards = cardsRemaining.redTeam;
+      blueCards = cardsRemaining.blueTeam;
+
+
+      // End turn if not the team's card
+      if (
+        (currentGame.blueTurn && cardsArray[cardIndex].team !== "Blue") ||
+        (!currentGame.blueTurn && cardsArray[cardIndex].team !== "Red")
+        ) {
+          blueTurn = !currentGame.blueTurn;
+        }
+        //Return the array with new card values.
+      cardsArray[cardIndex] = selectedCard
+      winner = determineWinner(cardsArray)
+    }
 
     //Update the database with the new copy of the cards array.
     const [numAffectedRows, [updateGame]] = await Games.update(
-      {cards: cardsArray},
+      {...currentGame, cards: cardsArray, blueTurn, redCards, blueCards, winner},
       {
         where: {
           gameName: gameName,
@@ -101,18 +112,6 @@ router.put('/:gameName/cardClicked', async (req, res, next) => {
   }
 })
 
-//The array is saved inside a cell and cannot access individual card object values.
-//Try to spread the array into an object,
-//change the desired card value.
-//Then spread the object inside a new array
-//and send it back to the database as an array.
-// const cardData = {...[cards]} '=> MODIFY DATA =>' [...{newCards}]
-
-//------------------------------------------------------------------------
-
-//End teams turn
-//find the game, flip team turn.
-//update game
 router.put("/:gameName/endTurn", async (req, res, next) => {
   try {
     const gameName = req.params.gameName
@@ -133,7 +132,6 @@ router.put("/:gameName/endTurn", async (req, res, next) => {
         returning: true
       }
       )
-      console.log('A Team has ended their turn.')
       io.to(gameName).emit("updateGame", updateGame);
       res.status(200).json(updateGame)
   } catch (error) {
@@ -154,8 +152,6 @@ const defaultGameState = {
 
 const wordList = require("../models/cards");
 
-//------------------------------------------------------------------------
-
 function newGame(gameName, cardSets = ["VANILLA"]) {
   cardSets = Array.from(new Set(cardSets));
 
@@ -174,7 +170,6 @@ function newGame(gameName, cardSets = ["VANILLA"]) {
     }
   }
 
-  // If word list is empty, default to vanilla set
   if (!words.length) {
     words.push(...wordList.vanilla);
   }
@@ -209,8 +204,6 @@ function newGame(gameName, cardSets = ["VANILLA"]) {
 
   const blueTurn = blueCards > redCards;
 
-  console.log('---------------------------------------Inside new game function')
-
   return Object.assign({}, defaultGameState, {
     gameName,
     cards,
@@ -221,8 +214,6 @@ function newGame(gameName, cardSets = ["VANILLA"]) {
   });
 }
 
-//------------------------------------------------------------------------
-
 // Randomly shuffles an array
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i -= 1) {
@@ -232,12 +223,8 @@ function shuffle(array) {
     array[j] = temp;
   }
 
-  console.log('---------------------------------------------Shuffling cards...')
-
   return array;
 }
-
-//------------------------------------------------------------------------
 
 // Set cards to be red/blue/assassin
 function assignTeamsToCards(cards, blueCards, redCards) {
@@ -254,26 +241,57 @@ function assignTeamsToCards(cards, blueCards, redCards) {
   // Assassin after the other cards
   cards[17].team = "Assassin";
 
-  console.log('----------------------------------------Assigned teams to cards')
-
   return shuffle(cards);
 }
 
-//------------------------------------------------------------------------
+function calculateCardsRemaining(cards) {
+  const cardCount = {
+    blueTeam: 0,
+    redTeam: 0,
+  };
+
+  if (cards.length) {
+    const blueCardsRemaining = cards.filter(
+      (card) => card.team === "Blue" && !card.clicked
+    );
+    cardCount.blueTeam = blueCardsRemaining.length;
+
+    const redCardsRemaining = cards.filter(
+      (card) => card.team === "Red" && !card.clicked
+    );
+    cardCount.redTeam = redCardsRemaining.length;
+  }
+
+  return cardCount;
+}
+
+function determineWinner(cards) {
+  if (cards.length) {
+    const assassinCard = cards.find(
+      (card) => card.team === "Assassin" && card.clicked
+    );
+
+    if (assassinCard) {
+      if (assassinCard.teamClicked === "Red") {
+        return "Blue";
+      } else {
+        return "Red";
+      }
+    }
+
+    const cardsRemaining = calculateCardsRemaining(cards);
+
+    if (cardsRemaining.blueTeam === 0) {
+      return "Blue";
+    }
+
+    if (cardsRemaining.redTeam === 0) {
+      return "Red";
+    }
+  }
+
+  return null;
+}
+
 
 module.exports = router;
-
-// //delete an existing game after createdAt time exceeds 24hrs.
-// router.delete("/:gameName", async (req, res, next) => {
-//   try {
-//     let deleteGame = await Games.findOne({
-//       where: {
-//         gameName: req.params.gameName,
-//       },
-//     });
-//     await deleteGame.destroy({ force: true });
-//   } catch (error) {
-//     res.status(500).send(error);
-//   }
-// });
-

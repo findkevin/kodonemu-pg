@@ -4,12 +4,10 @@ module.exports = function (io) {
   io.on('connection', socket => {
     clients++
     console.log(`A socket connection to the server has been made: ${socket.id}`)
-    console.log(`There are ${clients} players in the server.`)
+    console.log(`There is ${clients} player(s) in the server.`)
 
     socket.on('joinRoom', (gameName) => {
         console.log('JOIN ROOM', gameName)
-        // socket.join(gameName);
-        // io.emit('joinRoom', gameName)
         socket.emit('joinRoom', gameName)
     })
 
@@ -22,7 +20,7 @@ module.exports = function (io) {
     socket.on('disconnect', () => {
       clients--
       console.log(`Connection ${socket.id} has left the building`)
-      console.log(`There are ${clients} players in the server.`)
+      console.log(`There is ${clients} player(s) in the server.`)
     });
   })
 
