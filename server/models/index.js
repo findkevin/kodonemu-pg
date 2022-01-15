@@ -17,13 +17,10 @@ if(process.env.DATABASE_URL){
     port: process.env.port,
     host: process.env.host,
     logging: true,
-    storage: { // note this new line
-      storageMethod: 'sql', // note this new line
-      sqlDialect: 'postgres', // note this new line
-      sqlConnectionSsl: true, // note this new line
-      sqlConnectionUrl: process.env.DATABASE_URL, // note this new line
-      sqlDialectOptions: {ssl: true}, // note this new line
-  }, // note this new line
+    ssl: true, 
+      dialectOptions: {
+        ssl: true
+      },
  });
  } else {
  // the application is executed on the local machine ... use mysql
