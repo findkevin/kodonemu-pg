@@ -19,8 +19,11 @@ if(process.env.DATABASE_URL){
     logging: true,
     ssl: true, 
       dialectOptions: {
-        ssl: true
-      },
+    ssl: {
+      require: true,
+      rejectUnauthorized: false // <<<<<<< YOU NEED THIS
+    }
+  },
  });
  } else {
  // the application is executed on the local machine ... use mysql
